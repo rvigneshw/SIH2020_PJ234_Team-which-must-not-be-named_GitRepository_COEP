@@ -13,7 +13,13 @@ $htmlDOC='<!DOCTYPE html>
     <div id="myDiv">
         <!-- Plotly chart will be drawn inside this DIV -->
     </div>
-    <script src="scattermapbox-Green-Variable-Size.js"></script>
+    <script src="scattermapbox-Green-Variable-Size.js"></script>';
+if($type=="VS"){
+$htmlDOC=$htmlDOC.'<script src="scattermapbox-Green-Variable-Size.js"></script>';
+}elseif ($type=="VC") {
+    $htmlDOC=$htmlDOC.'<script src="scattermapbox-RYG-constant-size.js"></script>';
+}
+$htmlDOC=$htmlDOC.'
 </body>
 </html>';
 echo $htmlDOC;
