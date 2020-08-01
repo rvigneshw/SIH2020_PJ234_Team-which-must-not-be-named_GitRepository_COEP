@@ -76,7 +76,7 @@ function processData(data) {
             MARKER_COLOUR_ARRAY.push("#FF0000");
         }
 
-        var text = `Operator: ${element.OPERATOR_NAME} ,Country Name: ${element.COUNTRY_CODE}, Signal Strength: ${element.SIGNAL_STRENGTH}, LONGITUDE: ${element.LONGITUDE}, LATITUDE: ${element.LATITUDE}`
+        var text = `Operator: ${element.OPERATOR_NAME},</br>Country Name: ${element.COUNTRY_CODE},</br>Signal Strength: ${element.SIGNAL_STRENGTH},</br>LONGITUDE: ${element.LONGITUDE},</br>LATITUDE: ${element.LATITUDE}`
         DESCRIPTION_TEXT_ARRAY.push(text)
     }
     console.log(LONGITUDE_ARRAY);
@@ -96,7 +96,6 @@ function processData(data) {
     console.log(DESCRIPTION_TEXT_ARRAY);
 
     plot();
-
 }
 
 

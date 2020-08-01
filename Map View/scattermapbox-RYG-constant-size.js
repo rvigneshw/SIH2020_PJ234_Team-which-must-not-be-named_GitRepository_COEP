@@ -76,32 +76,13 @@ function processData(data) {
             MARKER_COLOUR_ARRAY.push("#FF0000");
         }
 
-        var text = `Operator: ${element.OPERATOR_NAME} ,Country Name: ${element.COUNTRY_CODE}, Signal Strength: ${element.SIGNAL_STRENGTH}, LONGITUDE: ${element.LONGITUDE}, LATITUDE: ${element.LATITUDE}`
+        var text = `Operator: ${element.OPERATOR_NAME},</br>Country Name: ${element.COUNTRY_CODE},</br>Signal Strength: ${element.SIGNAL_STRENGTH},</br>LONGITUDE: ${element.LONGITUDE},</br>LATITUDE: ${element.LATITUDE}`
         DESCRIPTION_TEXT_ARRAY.push(text)
     }
-    console.log(LONGITUDE_ARRAY);
-    console.log(LATITUDE_ARRAY);
-    console.log(LAC_ARRAY);
-    console.log(MCC_ARRAY);
-    console.log(MNC_ARRAY);
-    console.log(BST_LAT_ARRAY);
-    console.log(BST_LON_ARRAY);
-    console.log(SIGNAL_STRENGTH_ARRAY);
-    console.log(OPERATOR_NAME_ARRAY);
-    console.log(NETWORK_SPEED_UP_ARRAY);
-    console.log(NETWORK_SPEED_DOWN_ARRAY);
-    console.log(COUNTRY_CODE_ARRAY);
-    console.log(OPERATOR_CODE_ARRAY);
-    console.log(MARKER_COLOUR_ARRAY);
-    console.log(DESCRIPTION_TEXT_ARRAY);
 
     plot();
 
 }
-
-
-
-
 
 function plot() {
 
