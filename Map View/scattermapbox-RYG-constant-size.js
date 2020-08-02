@@ -65,8 +65,8 @@ function processData(data) {
         NETWORK_SPEED_DOWN_ARRAY.push(element.NETWORK_SPEED_DOWN)
         COUNTRY_CODE_ARRAY.push(element.COUNTRY_CODE)
         OPERATOR_CODE_ARRAY.push(element.OPERATOR_CODE)
-        var value = element.SIGNAL_STRENGTH / 10
-        MARKER_SIZE_ARRAY.push(value)
+        // var value = element.SIGNAL_STRENGTH / 10
+        MARKER_SIZE_ARRAY.push(5)
 
         if (element.SIGNAL_STRENGTH > 70) {
             MARKER_COLOUR_ARRAY.push("#00FF00");
@@ -105,8 +105,8 @@ function plot() {
             cmin: 0,
             cmax: 1.4,
             reversescale: true,
-            opacity: 0.5,
-            size: 5,//Determines variable size
+            opacity: 0.8,
+            size: MARKER_SIZE_ARRAY,//Determines variable size
 
         },
         name: 'Signal Strength Chart'

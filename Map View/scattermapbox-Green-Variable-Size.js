@@ -68,13 +68,8 @@ function processData(data) {
         var value = element.SIGNAL_STRENGTH / 10
         MARKER_SIZE_ARRAY.push(value)
 
-        if (element.SIGNAL_STRENGTH > 70) {
-            MARKER_COLOUR_ARRAY.push("#00FF00");
-        } else if (element.SIGNAL_STRENGTH > 40) {
-            MARKER_COLOUR_ARRAY.push("#FFFF00");
-        } else {
-            MARKER_COLOUR_ARRAY.push("#FF0000");
-        }
+
+        MARKER_COLOUR_ARRAY.push("#00FF00");
 
         var text = `Operator: ${element.OPERATOR_NAME},</br>
         Country Name: ${element.COUNTRY_CODE},</br>
@@ -119,7 +114,7 @@ function plot() {
         lon: LATITUDE_ARRAY,
         lat: LONGITUDE_ARRAY,
         marker: {
-            color: "#00FF00",
+            color: MARKER_COLOUR_ARRAY,
             // colorscale: scl, Determines Variable color scale
             cmin: 0,
             cmax: 1.4,

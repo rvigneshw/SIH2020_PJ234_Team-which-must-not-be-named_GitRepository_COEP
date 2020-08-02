@@ -7,6 +7,7 @@ $htmlDOC='<!DOCTYPE html>
     <title>SIH Demo</title>
     <script src="assests/plotly.js"></script>
     <script src="assests/jquery.min.js"></script>
+    
 </head>
 
 <body>
@@ -17,6 +18,8 @@ $htmlDOC='<!DOCTYPE html>
 <a href="https://dps-sih.herokuapp.com/index.php?T=VS">
 <button>Variable Size</button>
 </a>
+<input id="src_txt" type="text"/>
+<button id="src_txt_btn">Search</button>
 </center>
 <div style="height: 95vh">
    <div id="myDiv" style="height: inherit"/>
@@ -24,7 +27,8 @@ $htmlDOC='<!DOCTYPE html>
     <div id="myDiv">
         <!-- Plotly chart will be drawn inside this DIV -->
     </div>
-    <script src="scattermapbox-Green-Variable-Size.js"></script>';
+    <script src="assests/search.js"></script>
+    ';
 if($type=="VS"){
 $htmlDOC=$htmlDOC.'<script src="scattermapbox-Green-Variable-Size.js"></script>';
 }elseif ($type=="VC") {
