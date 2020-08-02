@@ -10,7 +10,15 @@ $htmlDOC='<!DOCTYPE html>
 </head>
 
 <body>
-<div style="height: 100vh">
+<center>
+<a href="https://dps-sih.herokuapp.com/index.php?T=VC">
+<button>Variable Color</button>
+</a>
+<a href="https://dps-sih.herokuapp.com/index.php?T=VS">
+<button>Variable Size</button>
+</a>
+</center>
+<div style="height: 95vh">
    <div id="myDiv" style="height: inherit"/>
 </div>
     <div id="myDiv">
