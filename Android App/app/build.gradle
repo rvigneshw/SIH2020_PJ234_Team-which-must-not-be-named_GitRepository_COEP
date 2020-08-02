@@ -31,5 +31,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.github.Pygmalion69:Gauge:1.5.2'
 
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+
 
 }
