@@ -10,6 +10,9 @@ $htmlDOC='<!DOCTYPE html>
 </head>
 
 <body>
+<div style="height: 100vh">
+   <div id="myDiv" style="height: inherit"/>
+</div>
     <div id="myDiv">
         <!-- Plotly chart will be drawn inside this DIV -->
     </div>
@@ -18,6 +21,8 @@ if($type=="VS"){
 $htmlDOC=$htmlDOC.'<script src="scattermapbox-Green-Variable-Size.js"></script>';
 }elseif ($type=="VC") {
     $htmlDOC=$htmlDOC.'<script src="scattermapbox-RYG-constant-size.js"></script>';
+}elseif ($type=="NCSS") {
+    $htmlDOC=$htmlDOC.'<script src="scattermapbox-Network-Variable-Color_Signal-Variable-size.js"></script>';
 }
 $htmlDOC=$htmlDOC.'
 </body>

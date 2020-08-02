@@ -76,7 +76,14 @@ function processData(data) {
             MARKER_COLOUR_ARRAY.push("#FF0000");
         }
 
-        var text = `Operator: ${element.OPERATOR_NAME},</br>Country Name: ${element.COUNTRY_CODE},</br>Signal Strength: ${element.SIGNAL_STRENGTH},</br>LONGITUDE: ${element.LONGITUDE},</br>LATITUDE: ${element.LATITUDE}`
+        var text = `Operator: ${element.OPERATOR_NAME},</br>
+        Country Name: ${element.COUNTRY_CODE},</br>
+        Signal Strength: ${element.SIGNAL_STRENGTH},</br>
+        LONGITUDE: ${element.LONGITUDE},</br>
+        LATITUDE: ${element.LATITUDE},</br>
+        NETWORK_SPEED_UP: ${element.NETWORK_SPEED_UP},</br>
+        NETWORK_SPEED_DOWN: ${element.NETWORK_SPEED_DOWN}`
+
         DESCRIPTION_TEXT_ARRAY.push(text)
     }
 
@@ -105,9 +112,9 @@ function plot() {
         name: 'Signal Strength Chart'
     }];
 
+    var config = { responsive: true }
+
     var layout = {
-        width: 1300,
-        height: 700,
         mapbox: {
             // style: 'streets'
             style: 'open-street-map'
@@ -123,11 +130,15 @@ function plot() {
             side: "top left"
         },
         geo: {
+            center: {
+                lon: 78,
+                lat: 23
+            },
             scope: "asia"
         }
     };
 
-    Plotly.newPlot('myDiv', data, layout);
+    Plotly.newPlot('myDiv', data, layout, config);
 
     // handler()
 }

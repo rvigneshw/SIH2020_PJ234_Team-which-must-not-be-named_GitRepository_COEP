@@ -68,9 +68,9 @@ function processData(data) {
         var value = element.SIGNAL_STRENGTH / 10
         MARKER_SIZE_ARRAY.push(value)
 
-        if (element.SIGNAL_STRENGTH > 70) {
+        if (element.OPERATOR_NAME > 70) {
             MARKER_COLOUR_ARRAY.push("#00FF00");
-        } else if (element.SIGNAL_STRENGTH > 40) {
+        } else if (element.OPERATOR_NAME > 40) {
             MARKER_COLOUR_ARRAY.push("#FFFF00");
         } else {
             MARKER_COLOUR_ARRAY.push("#FF0000");
@@ -84,24 +84,23 @@ function processData(data) {
         NETWORK_SPEED_UP: ${element.NETWORK_SPEED_UP},</br>
         NETWORK_SPEED_DOWN: ${element.NETWORK_SPEED_DOWN}`
 
-
         DESCRIPTION_TEXT_ARRAY.push(text)
     }
-    // console.log(LONGITUDE_ARRAY);
-    // console.log(LATITUDE_ARRAY);
-    // console.log(LAC_ARRAY);
-    // console.log(MCC_ARRAY);
-    // console.log(MNC_ARRAY);
-    // console.log(BST_LAT_ARRAY);
-    // console.log(BST_LON_ARRAY);
-    // console.log(SIGNAL_STRENGTH_ARRAY);
-    // console.log(OPERATOR_NAME_ARRAY);
-    // console.log(NETWORK_SPEED_UP_ARRAY);
-    // console.log(NETWORK_SPEED_DOWN_ARRAY);
-    // console.log(COUNTRY_CODE_ARRAY);
-    // console.log(OPERATOR_CODE_ARRAY);
-    // console.log(MARKER_COLOUR_ARRAY);
-    // console.log(DESCRIPTION_TEXT_ARRAY);
+    console.log(LONGITUDE_ARRAY);
+    console.log(LATITUDE_ARRAY);
+    console.log(LAC_ARRAY);
+    console.log(MCC_ARRAY);
+    console.log(MNC_ARRAY);
+    console.log(BST_LAT_ARRAY);
+    console.log(BST_LON_ARRAY);
+    console.log(SIGNAL_STRENGTH_ARRAY);
+    console.log(OPERATOR_NAME_ARRAY);
+    console.log(NETWORK_SPEED_UP_ARRAY);
+    console.log(NETWORK_SPEED_DOWN_ARRAY);
+    console.log(COUNTRY_CODE_ARRAY);
+    console.log(OPERATOR_CODE_ARRAY);
+    console.log(MARKER_COLOUR_ARRAY);
+    console.log(DESCRIPTION_TEXT_ARRAY);
 
     plot();
 }
@@ -131,9 +130,9 @@ function plot() {
         name: 'Signal Strength Chart'
     }];
 
-    var config = { responsive: true }
-
     var layout = {
+        width: 1300,
+        height: 700,
         mapbox: {
             // style: 'streets'
             style: 'open-street-map'
@@ -153,7 +152,9 @@ function plot() {
         }
     };
 
-    Plotly.newPlot('myDiv', data, layout, config);
+
+
+    Plotly.newPlot('myDiv', data, layout);
 
     // handler()
 }
