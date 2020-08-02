@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         Context context;
 
-        tm.listen(MyListener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
 
         getnetworktype();
         general();
@@ -77,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         NetworkCapabilities nc = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
         int downSpeed = nc.getLinkDownstreamBandwidthKbps();
         int upSpeed = nc.getLinkUpstreamBandwidthKbps();
+
     }
 
     private void getphonetype() {
@@ -147,14 +147,14 @@ public class MainActivity extends AppCompatActivity {
         String SIMSerialNumber = tm.getSimSerialNumber();
         String networkCountryISO = tm.getNetworkCountryIso();
         String SIMCountryISO = tm.getSimCountryIso();
-        TextView gen = findViewById(R.id.genral);
-        gen.setText("no.of.sim's   :"+nosim+
-                "\nIMEMI    :"+IMEINumber+
-                "\ndevice id 1  :"+deviceid1+
-                "\ndevice id 2   :"+deciceid2+
-                "\nSIM serial number"+SIMSerialNumber+
-                "\nnetwork country iso   :"+networkCountryISO+
-                "\nSIM country iso   :"+SIMCountryISO);
+//               TextView net = findViewById(R.id.network);
+//        net.setText("no.of.sim's   :"+nosim+
+//                "\nIMEMI    :"+IMEINumber+
+//                "\ndevice id 1  :"+deviceid1+
+//                "\ndevice id 2   :"+deciceid2+
+//                "\nSIM serial number"+SIMSerialNumber+
+//                "\nnetwork country iso   :"+networkCountryISO+
+//                "\nSIM country iso   :"+SIMCountryISO);
     }
 
     private void getnetworktype() {
@@ -199,8 +199,8 @@ public class MainActivity extends AppCompatActivity {
             default:
                 netType="Unknown";
         }
-        TextView net= findViewById(R.id.network);
-        net.setText(netType);
+//        TextView net= findViewById(R.id.network);
+//        net.setText(netType);
     }
 
 
