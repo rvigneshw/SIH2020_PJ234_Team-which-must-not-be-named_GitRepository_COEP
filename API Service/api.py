@@ -4,20 +4,20 @@ import json
 
 # """
 # CREATE TABLE "signal_strength_prod" (
-#   "LATITUDE" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
-#   "LONGITUDE" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
-#   "LAC" INTEGER NOT NULL DEFAULT '0',
-#   "MCC" INTEGER NOT NULL DEFAULT '0',
-#   "MNC" INTEGER NOT NULL DEFAULT '0',
-#   "BST_LAT" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
-#   "BST_LON" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
-#   "SIGNAL_STRENGTH" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
-#   "NETWORK_TYPE" INTEGER NOT NULL DEFAULT '0',
-#   "OPERATOR_NAME" VARCHAR NOT NULL DEFAULT '0',
-#   "NETWORK_SPEED_UP" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
-#   "NETWORK_SPEED_DOWN" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
-#   "COUNTRY_CODE" INTEGER NOT NULL DEFAULT '0',
-#   "OPERATOR_CODE" INTEGER NOT NULL DEFAULT '0'
+# 	"LATITUDE" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
+# 	"LONGITUDE" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
+# 	"LAC" INTEGER NOT NULL DEFAULT '0',
+# 	"MCC" INTEGER NOT NULL DEFAULT '0',
+# 	"MNC" INTEGER NOT NULL DEFAULT '0',
+# 	"BST_LAT" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
+# 	"BST_LON" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
+# 	"SIGNAL_STRENGTH" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
+# 	"NETWORK_TYPE" INTEGER NOT NULL DEFAULT '0',
+# 	"OPERATOR_NAME" VARCHAR NOT NULL DEFAULT '0',
+# 	"NETWORK_SPEED_UP" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
+# 	"NETWORK_SPEED_DOWN" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
+# 	"COUNTRY_CODE" INTEGER NOT NULL DEFAULT '0',
+# 	"OPERATOR_CODE" INTEGER NOT NULL DEFAULT '0'
 # )
 # ;
 # COMMENT ON COLUMN "signal_strength_prod"."LATITUDE" IS '';
@@ -31,7 +31,7 @@ import json
 # COMMENT ON COLUMN "signal_strength_prod"."NETWORK_TYPE" IS '';
 # COMMENT ON COLUMN "signal_strength_prod"."OPERATOR_NAME" IS '';
 # COMMENT ON COLUMN "signal_strength_prod"."NETWORK_SPEED_UP" IS '';
-# COMMENT ON COLUMN                                                                                              "signal_strength_prod"."NETWORK_SPEED_DOWN" IS '';
+# COMMENT ON COLUMN "signal_strength_prod"."NETWORK_SPEED_DOWN" IS '';
 # COMMENT ON COLUMN "signal_strength_prod"."COUNTRY_CODE" IS '';
 # COMMENT ON COLUMN "signal_strength_prod"."OPERATOR_CODE" IS '';
 # """
@@ -47,6 +47,7 @@ con = psycopg2.connect(
 @app.route("/prod/add", methods=["POST"])
 def add_ss_data():
     data = request.json
+    # return data
     # return jsonify(
     #     {
     #         "LATITUDE": data["LATITUDE"],
@@ -67,7 +68,7 @@ def add_ss_data():
     # )
     cur = con.cursor()
     cur.execute(
-        'INSERT INTO signal_strength_prod("LATITUDE","LONGITUDE","LAC","MCC","MNC","BST_LAT","BST_LON","SIGNAL_STRENGTH","NETWORK_TYPE","OPERATOR_NAME","NETWORK_SPEED_UP","NETWORK_SPEED_DOWN","COUNTRY_CODE","OPERATOR_CODE")VALUES(%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s,%s,%s)',
+        "INSERT INTO public.signal_strength_prod (latitude, longitude, lac, mcc, bst_lat, bst_lon, signal_strength, network_type, operator_name, network_speed_up, network_speed_down, country_code, operator_code, imei, wifi, mnc)VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);",
         [
             data["LATITUDE"],
             data["LONGITUDE"],
@@ -82,7 +83,9 @@ def add_ss_data():
             data["NETWORK_SPEED_UP"],
             data["NETWORK_SPEED_DOWN"],
             data["COUNTRY_CODE"],
-            data["COUNTRY_CODE"],
+            data["OPERATOR_CODE"],
+            data["IMEI"],
+            data["WIFI"],
         ],
     )
     con.commit()
@@ -93,9 +96,14 @@ def add_ss_data():
 @app.route("/prod/get", methods=["GET"])
 def get_ss_data():
     cur = con.cursor()
-    cur.execute("SELECT latitude, longitude, lac, mcc, bst_lat, bst_lon, signal_strength, network_type, operator_name, network_speed_up, network_speed_down, country_code, operator_code, imei, wifi FROM public.signal_strength_prod;")
-    # cur.close()
-    return json.dumps(cur.fetchall())
+    cur.execute("select * from signal_strength_prod")
+    return jsonify(cur.fetchall())
+
+    # cur.execute(
+    #     'INS ERT INTO signal_strength_prod("LATITUDE", "LONGITUDE", "LAC", "MCC", "MNC", "BST_LAT", "BST_LON", "SIGNAL_STRENGTH", "NETWORK_TYPE", "OPERATOR_NAME", "NETWORK_SPEED_UP", "NETWORK_SPEED_DOWN", "COUNTRY_CODE", "OPERATOR_CODE")VALUES(3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3)'
+    # )
+    # con.commit()
+
 
 @app.route("/help", methods=["GET"])
 def help():
@@ -136,23 +144,6 @@ def help():
         }
     )
 
-
-"""
--LATITUDE(DOUBLE)
--LONGITUDE(DOUBLE)
--LAC(INTEGER)
--MCC(INTEGER)
--MNC(INTEGER)
--BST_LAT(DOUBLE)
--BST_LON(DOUBLE)
--SIGNAL_STRENGTH(DOUBLE)
--NETWORK_TYPE(INTEGER)
--OPERATOR_NAME(VARCHAR)
--NETWORK_SPEED_UP(DOUBLE)
--NETWORK_SPEED_DOWN(DOUBLE)
--COUNTRY_CODE(INTEGER)
--OPERATOR_CODE(INTEGER)
-"""
 
 if __name__ == "__main__":
     app.run(debug=True)
