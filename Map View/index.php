@@ -35,7 +35,12 @@ $htmlDOC=$htmlDOC.'<script src="scattermapbox-Green-Variable-Size.js"></script>'
     $htmlDOC=$htmlDOC.'<script src="scattermapbox-RYG-constant-size.js"></script>';
 }elseif ($type=="NCSS") {
     $htmlDOC=$htmlDOC.'<script src="scattermapbox-Network-Variable-Color_Signal-Variable-size.js"></script>';
+}elseif ($type=="CD") {
+    $htmlDOC=$htmlDOC.'<script src="scattermapbox-call-drop.js"></script>';
+}elseif ($type=="P") {
+    $htmlDOC=$htmlDOC.'<script src="scattermapbox-production.js"></script>';
 }
+
 $htmlDOC=$htmlDOC.'
 </body>
 </html>';
