@@ -1,194 +1,158 @@
-import pymysql
-from flask import Flask
-from flaskext.mysql import MySQL
-from flask import jsonify
+from flask import Flask, request, jsonify
+import psycopg2
 import json
-from flask import flash, request
-from flask_sqlalchemy import SQLAlchemy
-from flask import Flask
-from flask_restful import Resource, Api
-from sqlalchemy import create_engine
-from flask_jsonpify import jsonify
-from flask_restful import reqparse, abort, Api, Resource
 
-
-db_connect = create_engine("postgres://srkgyxdipvjgwj:954cb039ec9ab5c5486105388023242e51c3a0115d7eff9d32304a4d22f56eaf@ec2-34-239-241-25.compute-1.amazonaws.com:5432/d9sva49df6upq5")
-
+# """
+# CREATE TABLE "signal_strength_prod" (
+#   "LATITUDE" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
+#   "LONGITUDE" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
+#   "LAC" INTEGER NOT NULL DEFAULT '0',
+#   "MCC" INTEGER NOT NULL DEFAULT '0',
+#   "MNC" INTEGER NOT NULL DEFAULT '0',
+#   "BST_LAT" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
+#   "BST_LON" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
+#   "SIGNAL_STRENGTH" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
+#   "NETWORK_TYPE" INTEGER NOT NULL DEFAULT '0',
+#   "OPERATOR_NAME" VARCHAR NOT NULL DEFAULT '0',
+#   "NETWORK_SPEED_UP" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
+#   "NETWORK_SPEED_DOWN" DOUBLE PRECISION(53) NOT NULL DEFAULT '0',
+#   "COUNTRY_CODE" INTEGER NOT NULL DEFAULT '0',
+#   "OPERATOR_CODE" INTEGER NOT NULL DEFAULT '0'
+# )
+# ;
+# COMMENT ON COLUMN "signal_strength_prod"."LATITUDE" IS '';
+# COMMENT ON COLUMN "signal_strength_prod"."LONGITUDE" IS '';
+# COMMENT ON COLUMN "signal_strength_prod"."LAC" IS '';
+# COMMENT ON COLUMN "signal_strength_prod"."MCC" IS '';
+# COMMENT ON COLUMN "signal_strength_prod"."MNC" IS '';
+# COMMENT ON COLUMN "signal_strength_prod"."BST_LAT" IS '';
+# COMMENT ON COLUMN "signal_strength_prod"."BST_LON" IS '';
+# COMMENT ON COLUMN "signal_strength_prod"."SIGNAL_STRENGTH" IS '';
+# COMMENT ON COLUMN "signal_strength_prod"."NETWORK_TYPE" IS '';
+# COMMENT ON COLUMN "signal_strength_prod"."OPERATOR_NAME" IS '';
+# COMMENT ON COLUMN "signal_strength_prod"."NETWORK_SPEED_UP" IS '';
+# COMMENT ON COLUMN                                                                                              "signal_strength_prod"."NETWORK_SPEED_DOWN" IS '';
+# COMMENT ON COLUMN "signal_strength_prod"."COUNTRY_CODE" IS '';
+# COMMENT ON COLUMN "signal_strength_prod"."OPERATOR_CODE" IS '';
+# """
 app = Flask(__name__)
-api = Api(app)
+con = psycopg2.connect(
+    dbname="dd39gjupgu55bp",
+    user="urbpnylcvchqhl",
+    host="ec2-52-7-39-178.compute-1.amazonaws.com",
+    password="ce93a69685e93e64fed547c6e901c15a88d14acfdfa40727141864d27afda991",
+)
 
 
+@app.route("/prod/add", methods=["POST"])
+def add_ss_data():
+    data = request.json
+    # return jsonify(
+    #     {
+    #         "LATITUDE": data["LATITUDE"],
+    #         "LONGITUDE": data["LONGITUDE"],
+    #         "LAC": data["LAC"],
+    #         "MCC": data["MCC"],
+    #         "MNC": data["MNC"],
+    #         "BST_LAT": data["BST_LAT"],
+    #         "BST_LON": data["BST_LON"],
+    #         "SIGNAL_STRENGTH": data["SIGNAL_STRENGTH"],
+    #         "NETWORK_TYPE": data["NETWORK_TYPE"],
+    #         "OPERATOR_NAME": data["OPERATOR_NAME"],
+    #         "NETWORK_SPEED_UP": data["NETWORK_SPEED_UP"],
+    #         "NETWORK_SPEED_DOWN": data["NETWORK_SPEED_DOWN"],
+    #         "COUNTRY_CODE": data["COUNTRY_CODE"],
+    #         "OPERATOR_CODE": data["COUNTRY_CODE"],
+    #     }
+    # )
+    cur = con.cursor()
+    cur.execute(
+        'INSERT INTO signal_strength_prod("LATITUDE","LONGITUDE","LAC","MCC","MNC","BST_LAT","BST_LON","SIGNAL_STRENGTH","NETWORK_TYPE","OPERATOR_NAME","NETWORK_SPEED_UP","NETWORK_SPEED_DOWN","COUNTRY_CODE","OPERATOR_CODE")VALUES(%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s,%s,%s)',
+        [
+            data["LATITUDE"],
+            data["LONGITUDE"],
+            data["LAC"],
+            data["MCC"],
+            data["MNC"],
+            data["BST_LAT"],
+            data["BST_LON"],
+            data["SIGNAL_STRENGTH"],
+            data["NETWORK_TYPE"],
+            data["OPERATOR_NAME"],
+            data["NETWORK_SPEED_UP"],
+            data["NETWORK_SPEED_DOWN"],
+            data["COUNTRY_CODE"],
+            data["COUNTRY_CODE"],
+        ],
+    )
+    con.commit()
+    cur.close()
+    return "ok"
 
 
+@app.route("/prod/get", methods=["GET"])
+def get_ss_data():
+    cur = con.cursor()
+    cur.execute("SELECT latitude, longitude, lac, mcc, bst_lat, bst_lon, signal_strength, network_type, operator_name, network_speed_up, network_speed_down, country_code, operator_code, imei, wifi FROM public.signal_strength_prod;")
+    # cur.close()
+    return json.dumps(cur.fetchall())
+
+@app.route("/help", methods=["GET"])
+def help():
+    return jsonify(
+        {
+            "structure": {
+                "LATITUDE": "DOUBLE",
+                "LONGITUDE": "DOUBLE",
+                "LAC": "INTEGER",
+                "MCC": "INTEGER",
+                "MNC": "INTEGER",
+                "BST_LAT": "DOUBLE",
+                "BST_LON": "DOUBLE",
+                "SIGNAL_STRENGTH": "DOUBLE",
+                "NETWORK_TYPE": "INTEGER",
+                "OPERATOR_NAME": "VARCHAR",
+                "NETWORK_SPEED_UP": "DOUBLE",
+                "NETWORK_SPEED_DOWN": "DOUBLE",
+                "COUNTRY_CODE": "INTEGER",
+                "OPERATOR_CODE": "INTEGER",
+            },
+            "format": {
+                "LATITUDE": 'data["LATITUDE"]',
+                "LONGITUDE": 'data["LONGITUDE"]',
+                "LAC": 'data["LAC"]',
+                "MCC": 'data["MCC"]',
+                "MNC": 'data["MNC"]',
+                "BST_LAT": 'data["BST_LAT"]',
+                "BST_LON": 'data["BST_LON"]',
+                "SIGNAL_STRENGTH": 'data["SIGNAL_STRENGTH"]',
+                "NETWORK_TYPE": 'data["NETWORK_TYPE"]',
+                "OPERATOR_NAME": 'data["OPERATOR_NAME"]',
+                "NETWORK_SPEED_UP": 'data["NETWORK_SPEED_UP"]',
+                "NETWORK_SPEED_DOWN": 'data["NETWORK_SPEED_DOWN"]',
+                "COUNTRY_CODE": 'data["COUNTRY_CODE"]',
+                "OPERATOR_CODE": 'data["COUNTRY_CODE"]',
+            },
+        }
+    )
 
 
-
-
-
-
-
-@app.route('/fake/add', methods=['POST'])
-def add_fake_signal_strength():
-    try:
-        LATITUDE = request.form['LATITUDE']
-        LONGITUDE = request.form['LONGITUDE']
-        LAC = request.form['LAC']
-        MCC = request.form['MCC']
-        MNC = request.form['MNC']
-        BST_LAT = request.form['BST_LAT']
-        BST_LON = request.form['BST_LON']
-        SIGNAL_STRENGTH = request.form['SIGNAL_STRENGTH']
-        OPERATOR_NAME = request.form['OPERATOR_NAME']
-        NETWORK_SPEED_UP = request.form['NETWORK_SPEED_UP']
-        NETWORK_SPEED_DOWN = request.form['NETWORK_SPEED_DOWN']
-        COUNTRY_CODE = request.form['COUNTRY_CODE']
-        OPERATOR_CODE = request.form['OPERATOR_CODE']
-        # if LATITUDE and LONGITUDE and SIGNAL_STRENGTH and request.method == 'POST':
-        if request.method == 'POST':
-            sql = "INSERT INTO signal_strength_fake(LATITUDE, LONGITUDE, LAC, MCC, MNC, BST_LAT, BST_LON, SIGNAL_STRENGTH, OPERATOR_NAME, NETWORK_SPEED_UP, NETWORK_SPEED_DOWN, COUNTRY_CODE, OPERATOR_CODE) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-            data = (LATITUDE, LONGITUDE, LAC, MCC, MNC, BST_LAT, BST_LON, SIGNAL_STRENGTH, OPERATOR_NAME, NETWORK_SPEED_UP, NETWORK_SPEED_DOWN, COUNTRY_CODE, OPERATOR_CODE,)
-            conn = mysql.connect()
-            cursor = conn.cursor()
-            cursor.execute(sql, data)
-            conn.commit()
-            result = {}
-            json_data = []
-            result["status"] = "success"
-            json_data.append(result)
-            return json.dumps(json_data, indent=4, sort_keys=True, default=str)
-        else:
-             return 'Error while adding data'
-    except Exception as e:
-        print(e)
-    finally:
-        cursor.close()
-        conn.close()
-    return json.dumps(json_data, indent=4, sort_keys=True, default=str)
-
-
-@app.route('/prod/add', methods=['POST'])
-def add_prod_signal_strength():
-    return request.data
-    LONGITUDE = request.form['LONGITUDE']
-    LATITUDE = request.form['LATITUDE']
-    LAC = request.form['LAC']
-    MCC = request.form['MCC']
-    MNC = request.form['MNC']
-    BST_LAT = request.form['BST_LAT']
-    BST_LON = request.form['BST_LON']
-    SIGNAL_STRENGTH = request.form['SIGNAL_STRENGTH']
-    OPERATOR_NAME = request.form['OPERATOR_NAME']
-    NETWORK_SPEED_UP = request.form['NETWORK_SPEED_UP']
-    NETWORK_SPEED_DOWN = request.form['NETWORK_SPEED_DOWN']
-    COUNTRY_CODE = request.form['COUNTRY_CODE']
-    OPERATOR_CODE = request.form['OPERATOR_CODE']
-
-    conn = db_connect.connect()  # Connect to database
-
-    query = conn.execute(
-    """INSERT INTO signal_strength_prod (LATITUDE,
-    LONGITUDE,
-    LAC,
-    MCC,
-    MNC,
-    BST_LAT,
-    BST_LON,
-    SIGNAL_STRENGTH,
-    OPERATOR_NAME,
-    NETWORK_SPEED_UP,
-    NETWORK_SPEED_DOWN,
-    COUNTRY_CODE,
-    OPERATOR_CODE) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)  """,
-    (LATITUDE,
-    LONGITUDE,
-    LAC,
-    MCC,
-    MNC,
-    BST_LAT,
-    BST_LON,
-    SIGNAL_STRENGTH,
-    OPERATOR_NAME,
-    NETWORK_SPEED_UP,
-    NETWORK_SPEED_DOWN,
-    COUNTRY_CODE,
-    OPERATOR_CODE,))
-
-    return {"data":"ok"}
-
-  
-        
-    
-
-@app.route('/fake/get')
-def get_fake_signal_strength():
-    conn = db_connect.connect()  # Connect to database
-    query = conn.execute(
-    "Select * from signal_strength_fake"
-    )  # This line performs query and returns the result
-    return {
-    "data": [
-    dict(zip(tuple(str(i[0]) for i in query.cursor.description), j))
-    for j in query.cursor.fetchall()
-    ]
-    }  # Ftches all columns
-
-@app.route('/prod/get')
-def get_prod_signal_strength():
-    conn = db_connect.connect()  # Connect to database
-    query = conn.execute(
-    "Select * from signal_strength_prod"
-    )  # This line performs query and returns the result
-    return {
-    "data": [
-    dict(zip(tuple(str(i[0]) for i in query.cursor.description), j))
-    for j in query.cursor.fetchall()
-    ]
-    }  # Ftches all columns
-
-
-
-@app.route('/fake/dynamic')
-def dynamic_fake_signal_strength():
-    try:
-        j_data = {'lat_low' : 0, 'lat_up' : 100, 'lon_low' : 0, 'lon_up' : 100 }
-        conn = mysql.connect()
-        cursor = conn.cursor(pymysql.cursors.DictCursor)
-        query = "SELECT * FROM signal_strength_fake WHERE  LATITUDE BETWEEN %s AND %s  AND LONGITUDE BETWEEN %s AND %s LIMIT 10000"
-        data = (j_data['lat_low'], j_data['lat_up'], j_data['lon_low'], j_data['lon_up'])
-        cursor.execute(query, data)
-        rows = cursor.fetchall()
-        resp = jsonify(rows)
-        resp.status_code = 200
-        return resp
-    
-    except Exception as e:
-        print(e)
-    finally:
-        cursor.close()
-        conn.close()
-
-@app.route('/prod/dynamic')
-def dynamic_prod_signal_strength():
-    try:
-        j_data = {'lat_low' : 0, 'lat_up' : 100, 'lon_low' : 0, 'lon_up' : 100 }
-        conn = mysql.connect()
-        cursor = conn.cursor(pymysql.cursors.DictCursor)
-        query = "SELECT * FROM signal_strength_production WHERE  LATITUDE BETWEEN %s AND %s  AND LONGITUDE BETWEEN %s AND %s LIMIT 10000"
-        data = (j_data['lat_low'], j_data['lat_up'], j_data['lon_low'], j_data['lon_up'])
-        cursor.execute(query, data)
-        rows = cursor.fetchall()
-        resp = jsonify(rows)
-        resp.status_code = 200
-        return resp
-    
-    except Exception as e:
-        print(e)
-    finally:
-        cursor.close()
-        conn.close()
-
-
-
+"""
+-LATITUDE(DOUBLE)
+-LONGITUDE(DOUBLE)
+-LAC(INTEGER)
+-MCC(INTEGER)
+-MNC(INTEGER)
+-BST_LAT(DOUBLE)
+-BST_LON(DOUBLE)
+-SIGNAL_STRENGTH(DOUBLE)
+-NETWORK_TYPE(INTEGER)
+-OPERATOR_NAME(VARCHAR)
+-NETWORK_SPEED_UP(DOUBLE)
+-NETWORK_SPEED_DOWN(DOUBLE)
+-COUNTRY_CODE(INTEGER)
+-OPERATOR_CODE(INTEGER)
+"""
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
