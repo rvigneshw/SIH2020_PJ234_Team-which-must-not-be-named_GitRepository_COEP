@@ -17,53 +17,57 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_weight=".4"
-            android:layout_height="fill_parent"
             android:layout_width="0dp"
-            android:orientation="vertical"
-            android:layout_margin="10dp">
-
-            <TextView
-                android:id="@+id/ss"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="signal"/>
-
-            <TextView
-                android:id="@+id/aa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="times"/>
-
-            <TextView
-                android:id="@+id/bb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="formulae"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_weight=".6"
             android:layout_height="fill_parent"
-            android:layout_width="0dp">
+            android:layout_weight=".6">
 
-        <de.nitri.gauge.Gauge
-            android:id="@+id/gauge"
-            android:layout_width="189dp"
-            android:layout_height="146dp"
-            android:layout_gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.495"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.083"
-            gauge:initialValue="-140"
-            gauge:maxValue="-90"
-            gauge:minValue="-140"
-            gauge:totalNicks="120"
-            gauge:valuePerNick="0.5" />
+
+            <de.nitri.gauge.Gauge
+                android:id="@+id/gauge"
+                android:layout_width="178dp"
+                android:layout_height="173dp"
+                android:layout_gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.495"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.083"
+                app:lowerText="dbm"
+                app:upperText="signal strenght"
+                app:upperTextSize="19"
+                gauge:initialValue="-130"
+                gauge:maxValue="-70"
+                gauge:minValue="-130"
+                gauge:totalNicks="100"
+                gauge:valuePerNick="1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight=".1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="HEALTH TIP !"
+                    android:textSize="30dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/healthtip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="your health is based on mobile signal strength"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </LinearLayout>
@@ -77,12 +81,79 @@
         <LinearLayout
             android:layout_weight=".2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_margin="30dp"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_weight=".3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+<!--                <Button-->
+<!--                    android:id="@+id/signaldirection"-->
+<!--                    android:onClick="getsignaldirection"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:text="Send data"-->
+<!--                    android:textSize="20dp"/>-->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight=".4"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/ss"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:layout_marginLeft="30dp"
+                        android:text="signal" />
+
+                    <TextView
+                        android:id="@+id/aa"
+                        android:layout_width="wrap_content"
+                        android:textSize="20dp"
+
+
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:text="netup" />
+
+                    <TextView
+                        android:id="@+id/bb"
+                        android:layout_width="wrap_content"
+                        android:textSize="20dp"
+
+
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:text="netdown" />
+
+                    <TextView
+                        android:id="@+id/cc"
+                        android:layout_width="wrap_content"
+                        android:textSize="20dp"
+
+
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:text="location" />
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
         <LinearLayout
             android:layout_weight=".9"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
+
+
 
             <Button
                 android:id="@+id/detials"
@@ -90,7 +161,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight=".3"
                 android:onClick="gotodetials"
-                android:text="detials"/>
+                android:text="details"/>
 
             <Button
                 android:id="@+id/needle"
@@ -98,7 +169,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight=".3"
                 android:onClick="gotoneedle"
-                android:text="needle"/>
+                android:text="your location"/>
 
             <Button
                 android:id="@+id/map"
@@ -106,7 +177,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight=".3"
                 android:onClick="gotomap"
-                android:text="map"/>
+                android:text="GIS MAP"/>
         </LinearLayout>
 
     </LinearLayout>

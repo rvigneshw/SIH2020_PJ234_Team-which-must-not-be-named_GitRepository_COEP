@@ -26,8 +26,8 @@ public class map extends AppCompatActivity {
         mWebview  = (WebView) findViewById(R.id.web);
         WebSettings webSettings = mWebview.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webSettings.setUseWideViewPort(true);
-        webSettings.setLoadWithOverviewMode(true);
+//        webSettings.setUseWideViewPort(true);
+//        webSettings.setLoadWithOverviewMode(true);
 
 
 
@@ -41,7 +41,7 @@ public class map extends AppCompatActivity {
 
         });
 
-        mWebview .loadUrl("https://dps-sih.herokuapp.com/index.php?T=VS");
+        mWebview .loadUrl("https://dps-sih.herokuapp.com/index.php?T=P");
 
 
         }
