@@ -74,7 +74,6 @@ def add_ss_data():
             data["LONGITUDE"],
             data["LAC"],
             data["MCC"],
-            data["MNC"],
             data["BST_LAT"],
             data["BST_LON"],
             data["SIGNAL_STRENGTH"],
@@ -86,6 +85,7 @@ def add_ss_data():
             data["OPERATOR_CODE"],
             data["IMEI"],
             data["WIFI"],
+            data["MNC"],
         ],
     )
     con.commit()
@@ -97,13 +97,51 @@ def add_ss_data():
 def get_ss_data():
     cur = con.cursor()
     cur.execute("select * from signal_strength_prod")
-    return jsonify(cur.fetchall())
+    r = [dict((cur.description[i][0], value) \
+               for i, value in enumerate(row)) for row in cur.fetchall()]
+    # cur.connection.close()
+    return jsonify(r)
+    # return jsonify(cur.fetchall())
 
     # cur.execute(
     #     'INS ERT INTO signal_strength_prod("LATITUDE", "LONGITUDE", "LAC", "MCC", "MNC", "BST_LAT", "BST_LON", "SIGNAL_STRENGTH", "NETWORK_TYPE", "OPERATOR_NAME", "NETWORK_SPEED_UP", "NETWORK_SPEED_DOWN", "COUNTRY_CODE", "OPERATOR_CODE")VALUES(3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3)'
     # )
     # con.commit()
+@app.route("/prod/get/jio", methods=["GET"])
+def get_jio_data():
+    cur = con.cursor()
+    cur.execute("select * from signal_strength_prod where operator_name= 'JIO' OR operator_name= 'Jio 4G' ")
+    r = [dict((cur.description[i][0], value) \
+               for i, value in enumerate(row)) for row in cur.fetchall()]
+    # cur.connection.close()
+    return jsonify(r)
 
+@app.route("/prod/get/airtel", methods=["GET"])
+def get_airtel_data():
+    cur = con.cursor()
+    cur.execute("select * from signal_strength_prod where operator_name= 'airtel'")
+    r = [dict((cur.description[i][0], value) \
+               for i, value in enumerate(row)) for row in cur.fetchall()]
+    # cur.connection.close()
+    return jsonify(r)    
+
+@app.route("/prod/get/vodafone", methods=["GET"])
+def get_vodafone_data():
+    cur = con.cursor()
+    cur.execute("select * from signal_strength_prod where operator_name= 'vodafone'")
+    r = [dict((cur.description[i][0], value) \
+               for i, value in enumerate(row)) for row in cur.fetchall()]
+    # cur.connection.close()
+    return jsonify(r)
+
+@app.route("/prod/get/bsnl", methods=["GET"])
+def get_bsnl_data():
+    cur = con.cursor()
+    cur.execute("select * from signal_strength_prod where operator_name= 'bsnl'")
+    r = [dict((cur.description[i][0], value) \
+               for i, value in enumerate(row)) for row in cur.fetchall()]
+    # cur.connection.close()
+    return jsonify(r)
 
 @app.route("/help", methods=["GET"])
 def help():
