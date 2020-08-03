@@ -3,7 +3,7 @@ document.getElementById("src_txt_btn").addEventListener("click", function () {
     console.log(search_query);
     $.ajax({
         type: "GET",
-        url: "http://open.mapquestapi.com/geocoding/v1/address?key=AQWuFdYM1V8cEik4FIbxOPF4IJIFmJfu&location=" + search_query,
+        url: "https://dps-sih.herokuapp.com/data.php?search_query=" + search_query,
         dataType: "json",
         success: function (data) {
             var loc = data.results[0].locations[0].latLng;

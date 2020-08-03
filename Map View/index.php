@@ -18,6 +18,18 @@ $htmlDOC='<!DOCTYPE html>
 <a href="https://dps-sih.herokuapp.com/index.php?T=VS">
 <button>Variable Size</button>
 </a>
+<a href="https://dps-sih.herokuapp.com/index.php?T=J">
+<button>JIO</button>
+</a>
+<a href="https://dps-sih.herokuapp.com/index.php?T=B">
+<button>BSNL</button>
+</a>
+<a href="https://dps-sih.herokuapp.com/index.php?T=A">
+<button>AIRTEL</button>
+</a>
+<a href="https://dps-sih.herokuapp.com/index.php?T=V">
+<button>VODAFONE</button>
+</a>
 <input id="src_txt" type="text"/>
 <button id="src_txt_btn">Search</button>
 </center>
@@ -35,7 +47,12 @@ $htmlDOC=$htmlDOC.'<script src="scattermapbox-Green-Variable-Size.js"></script>'
     $htmlDOC=$htmlDOC.'<script src="scattermapbox-RYG-constant-size.js"></script>';
 }elseif ($type=="NCSS") {
     $htmlDOC=$htmlDOC.'<script src="scattermapbox-Network-Variable-Color_Signal-Variable-size.js"></script>';
+}elseif ($type=="CD") {
+    $htmlDOC=$htmlDOC.'<script src="scattermapbox-call-drop.js"></script>';
+}elseif ($type=="P") {
+    $htmlDOC=$htmlDOC.'<script src="scattermapbox-production.js"></script>';
 }
+
 $htmlDOC=$htmlDOC.'
 </body>
 </html>';
